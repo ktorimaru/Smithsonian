@@ -16,7 +16,7 @@ struct ContentView: View {
     @State private var searchString: String = ""
     @State private var selectedTab: Int = 0
     
-    @State private var displayArray = [CDMedia]()
+//    @State private var displayArray = [CDMedia]()
     
     @State private var cancellable = Set<AnyCancellable>()
     
@@ -36,12 +36,12 @@ struct ContentView: View {
                     }
                 }.frame(maxHeight: 88)
                 VStack(alignment: .leading, spacing: 0) {
-                    if displayArray.count > 0 {
+                    if model.displayArray.count > 0 {
                         TabView {
                             if model.searches.count > 0,
-                               displayArray.count > 0 {
+                               model.displayArray.count > 0 {
                                 ForEach(
-                                    Array(displayArray.enumerated()), id: \.offset) { index, media in
+                                    Array(model.displayArray.enumerated()), id: \.offset) { index, media in
                                     NavigationLink(destination:
                                         Detail(image: media.wrappedThumb, title: media.wrappedTitle, source: media.wrappedData_source)
                                     ){
@@ -101,21 +101,21 @@ struct ContentView: View {
                 )
             }
         }
-        .onAppear {
-            model.$selectedSearch
-                .receive(on: DispatchQueue.main)
-                .sink { index in
-                    if model.searches.count > index {
-                        displayArray.removeAll()
-                        DispatchQueue.main.async {
-                            if model.searches.count > index {
-                                displayArray.append(contentsOf: model.searches[index].mediaArray)
-                            }
-                        }
-                    }
-                }
-                .store(in: &cancellable)
-        }
+//        .onAppear {
+//            model.$selectedSearch
+//                .receive(on: DispatchQueue.main)
+//                .sink { index in
+//                    if model.searches.count > index {
+//                        displayArray.removeAll()
+//                        DispatchQueue.main.async {
+//                            if model.searches.count > index {
+//                                displayArray.append(contentsOf: model.searches[index].mediaArray)
+//                            }
+//                        }
+//                    }
+//                }
+//                .store(in: &cancellable)
+//        }
     }
 
 }

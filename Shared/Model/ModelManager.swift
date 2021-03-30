@@ -13,8 +13,14 @@ class ModelManager: ObservableObject {
     @Published var searches: [Search] = []
     @Published var error: Error?
     @Published var errorState: Bool = false
-    @Published var selectedSearch = 0
-    
+    @Published var selectedSearch = 0 {
+        willSet {
+            if searches.count > newValue {
+                displayArray = searches[newValue].mediaArray
+            }
+        }
+    }
+    @Published var displayArray = [CDMedia]()
     init() {
         fetchSearches()
     }
