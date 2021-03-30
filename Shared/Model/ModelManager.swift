@@ -16,7 +16,11 @@ class ModelManager: ObservableObject {
     @Published var selectedSearch = 0 {
         willSet {
             if searches.count > newValue {
-                displayArray = searches[newValue].mediaArray
+                displayArray.removeAll()
+                DispatchQueue.main.async {
+                    self.displayArray.append(contentsOf: self.searches[newValue].mediaArray)
+                }
+
             }
         }
     }
